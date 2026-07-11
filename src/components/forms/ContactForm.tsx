@@ -5,13 +5,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { submitLead } from '@/actions/leads';
-import { Department } from '@prisma/client';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Obligatorio'),
   email: z.string().email('Inválido'),
   phone: z.string().regex(/^\+?[0-9\s-]{8,15}$/, 'Inválido'),
-  department: z.nativeEnum(Department),
+  department: z.enum(['NDT', 'CONTABILIDAD']),
   message: z.string().optional(),
 });
 
