@@ -14,7 +14,6 @@ export async function submitLead(data: { name: string; email: string; phone: str
         email: data.email,
         phone: data.phone,
         department: data.department,
-        message: data.message || '',
       },
     });
 
