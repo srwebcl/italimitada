@@ -32,7 +32,8 @@ export async function POST(request: Request) {
       // Trigger B: Recuperación pagada - Generar PDF y enviar correo
       if (cert && cert.welder.email) {
         const logoPath = path.join(process.cwd(), 'public', 'logo-ita.png');
-        const logoBase64 = `data:image/png;base64,${fs.readFileSync(logoPath).toString('base64')}`;
+        const logoBuffer = fs.readFileSync(logoPath);
+        const logoBase64 = `data:image/png;base64,${logoBuffer.toString('base64')}`;
 
         const { renderToBuffer } = await import('@react-pdf/renderer');
         const { CertificateTemplate } = await import('@/components/pdf/CertificateTemplate');
@@ -50,7 +51,7 @@ export async function POST(request: Request) {
           }
         });
         const pdfBuffer = await renderToBuffer(pdfElement as any);
-        await sendCertificateEmail(cert.welder.email, cert.welder.fullName, pdfBuffer);
+        await sendCertificateEmail(cert.welder.email, cert.welder.fullName, pdfBuffer, logoBuffer);
       }
 
       return NextResponse.redirect(new URL('/certificados?success=pago_aprobado', request.url));
