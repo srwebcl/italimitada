@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Department {
+  NDT
+  CONTABILIDAD
+}
+
+enum CertificateStatus {
+  VIGENTE
+  EXPIRADO
+  REVOCADO
+}
+
+model Lead {
+  id         String     @id @default(cuid())
+  name       String
+  email      String
+  phone      String
+  department Department
+  createdAt  DateTime   @default(now())
+}
+
+model Welder {
+  id           String        @id @default(cuid())
+  rut          String        @unique
+  fullName     String
+  email        String?
+  company      String
+  certificates Certificate[]
+  createdAt    DateTime      @default(now())
+}
+
+model Certificate {
+  id             String            @id @default(cuid())
+  welderId       String
+  welder         Welder            @relation(fields: [welderId], references: [id])
+  process        String
+  issueDate      DateTime
+  expiryDate     DateTime
+  validationCode String            @unique
+  status         CertificateStatus
+  createdAt      DateTime          @default(now())
+}
