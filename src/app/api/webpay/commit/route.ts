@@ -6,6 +6,8 @@ import { prisma } from '@/lib/db';
 import React from 'react';
 import { generateQR } from '@/lib/qr';
 import { sendCertificateEmail } from '@/lib/mail';
+import fs from 'fs';
+import path from 'path';
 
 export async function POST(request: Request) {
   try {
@@ -29,6 +31,9 @@ export async function POST(request: Request) {
 
       // Trigger B: Recuperación pagada - Generar PDF y enviar correo
       if (cert && cert.welder.email) {
+        const logoPath = path.join(process.cwd(), 'public', 'logo-ita.png');
+        const logoBase64 = `data:image/png;base64,${fs.readFileSync(logoPath).toString('base64')}`;
+
         const { renderToBuffer } = await import('@react-pdf/renderer');
         const { CertificateTemplate } = await import('@/components/pdf/CertificateTemplate');
         const qrBase64 = await generateQR(cert.validationCode);
@@ -40,7 +45,8 @@ export async function POST(request: Request) {
             issueDate: cert.issueDate.toLocaleDateString('es-CL'),
             expiryDate: cert.expiryDate.toLocaleDateString('es-CL'),
             validationCode: cert.validationCode,
-            qrBase64
+            qrBase64,
+            logoBase64
           }
         });
         const pdfBuffer = await renderToBuffer(pdfElement as any);
