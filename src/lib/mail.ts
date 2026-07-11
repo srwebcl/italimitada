@@ -63,7 +63,7 @@ export async function sendCertificateEmail(email: string, welderName: string, pd
         {
           filename: 'logo-ita.png',
           content: logoBuffer,
-          content_id: 'logo'
+          contentId: 'logo'
         }
       ]
     });
