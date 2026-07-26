@@ -33,7 +33,7 @@ export default async function CertificadosList() {
                 <th className="px-6 py-4">Código Validación</th>
                 <th className="px-6 py-4">RUT</th>
                 <th className="px-6 py-4">Nombre Soldador</th>
-                <th className="px-6 py-4">Proceso</th>
+                <th className="px-6 py-4">Tipo Calificación</th>
                 <th className="px-6 py-4">Emisión</th>
                 <th className="px-6 py-4">Estado</th>
                 <th className="px-6 py-4 text-right">Acciones</th>
@@ -53,7 +53,8 @@ export default async function CertificadosList() {
                     <td className="px-6 py-4">{cert.welder.rut}</td>
                     <td className="px-6 py-4 font-medium text-white">{cert.welder.fullName}</td>
                     <td className="px-6 py-4">
-                      <span className="bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded-md text-xs font-semibold">{cert.process}</span>
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                      <span className="bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded-md text-xs font-semibold">{(cert as any).qualificationType}</span>
                     </td>
                     <td className="px-6 py-4">{cert.issueDate.toLocaleDateString('es-CL')}</td>
                     <td className="px-6 py-4">

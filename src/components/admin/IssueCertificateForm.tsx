@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react';
 import { issueCertificate } from '@/actions/admin';
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Plus } from 'lucide-react';
 
 export default function IssueCertificateForm() {
   const [status, setStatus] = useState<{type: 'success' | 'error', message: string} | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showCustomVigencia, setShowCustomVigencia] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,12 +41,12 @@ export default function IssueCertificateForm() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-zinc-400 mb-2">RUT del Soldador</label>
-              <input name="rut" placeholder="12345678-9" required className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all placeholder:text-zinc-600" />
-            </div>
-            <div>
               <label className="block text-sm font-semibold text-zinc-400 mb-2">Nombre Completo</label>
               <input name="name" placeholder="Ej. Juan Pérez" required className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all placeholder:text-zinc-600" />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-zinc-400 mb-2">RUT del Soldador</label>
+              <input name="rut" placeholder="12345678-9" required className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all placeholder:text-zinc-600" />
             </div>
           </div>
           
@@ -55,26 +56,46 @@ export default function IssueCertificateForm() {
               <input name="company" placeholder="Ej. Constructora SPA" className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all placeholder:text-zinc-600" />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-zinc-400 mb-2">Correo Electrónico (Envío PDF)</label>
-              <input name="email" type="email" placeholder="soldador@email.com" className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all placeholder:text-zinc-600" />
+              <label className="block text-sm font-semibold text-zinc-400 mb-2">N°. de Certificado</label>
+              <input name="certificateNumber" placeholder="Ej. CERT-2026-001" required className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all placeholder:text-zinc-600" />
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-zinc-400 mb-2">Proceso de Soldadura</label>
-              <select name="process" required className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all appearance-none">
-                <option value="SMAW">SMAW</option>
-                <option value="GTAW">GTAW</option>
-                <option value="GMAW">GMAW</option>
-                <option value="FCAW">FCAW</option>
-                <option value="SAW">SAW</option>
-              </select>
+              <label className="block text-sm font-semibold text-zinc-400 mb-2">Tipo de Calificación</label>
+              <input name="qualificationType" placeholder="Ej. Calificación de Soldador" required className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all placeholder:text-zinc-600" />
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-zinc-400 mb-2">Fecha de Emisión</label>
               <input name="issueDate" type="date" required className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all [&::-webkit-calendar-picker-indicator]:invert" />
-              <p className="text-xs text-zinc-500 mt-2">La fecha de caducidad se calculará automáticamente a 1 año.</p>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-zinc-400 mb-2 flex items-center justify-between">
+                Vigencia (Años)
+                {!showCustomVigencia && (
+                  <button type="button" onClick={() => setShowCustomVigencia(true)} className="text-xs text-[#00D02C] hover:text-[#00a824] flex items-center gap-1">
+                    <Plus size={12} /> Agregar nueva Vigencia
+                  </button>
+                )}
+              </label>
+              {showCustomVigencia ? (
+                <div className="flex gap-2">
+                  <input name="vigencia" type="number" min="1" placeholder="Ej. 4" required className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all placeholder:text-zinc-600" />
+                  <button type="button" onClick={() => setShowCustomVigencia(false)} className="px-4 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700">
+                    Cancelar
+                  </button>
+                </div>
+              ) : (
+                <select name="vigencia" required className="w-full bg-zinc-950 px-4 py-3 border border-zinc-800 rounded-lg outline-none focus:border-[#00D02C] focus:ring-1 focus:ring-[#00D02C] text-white transition-all appearance-none">
+                  <option value="1">1 Año</option>
+                  <option value="2">2 Años</option>
+                  <option value="3">3 Años</option>
+                </select>
+              )}
             </div>
           </div>
 

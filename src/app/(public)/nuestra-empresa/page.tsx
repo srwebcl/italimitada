@@ -40,12 +40,20 @@ export default function NuestraEmpresa() {
                 Nacimos con la firme convicción de proveer servicios de alta especialización técnica para la industria de la construcción, minería y metalmecánica. Desde nuestros inicios, hemos forjado nuestra reputación basándonos en la estricta adherencia a normativas internacionales y la entrega de soluciones integrales.
               </p>
             </div>
-            <div className="w-full md:w-5/12 aspect-[4/5] bg-zinc-900 rounded-3xl border border-zinc-800 relative overflow-hidden flex items-center justify-center p-8">
-               <div className="absolute inset-0 bg-gradient-to-tr from-[#00D02C]/10 to-transparent"></div>
+            <div className="w-full md:w-5/12 aspect-[4/5] bg-zinc-900 rounded-3xl border border-zinc-800 relative overflow-hidden flex items-center justify-center p-8 group">
+               <Image 
+                 src="/images/empresa/historia-ndt.png" 
+                 alt="Ingeniero NDT inspeccionando tubería" 
+                 fill 
+                 priority
+                 sizes="(max-width: 768px) 100vw, 40vw"
+                 className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 group-hover:scale-105" 
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent"></div>
                {/* Decorative Element representing History/Time */}
-               <div className="w-full h-full border border-zinc-800 rounded-2xl flex flex-col justify-end p-6 bg-zinc-950/50 backdrop-blur">
+               <div className="w-full h-full border border-zinc-800/50 rounded-2xl flex flex-col justify-end p-6 bg-gradient-to-t from-zinc-950/80 to-transparent relative z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="w-full h-px bg-zinc-800 mb-4"></div>
-                  <div className="flex justify-between items-center text-zinc-500 font-mono text-sm">
+                  <div className="flex justify-between items-center text-zinc-300 font-mono text-sm">
                     <span>EST. 2018</span>
                     <span>LA SERENA, CL</span>
                   </div>
@@ -61,15 +69,21 @@ export default function NuestraEmpresa() {
               </div>
               <h2 className="text-3xl lg:text-4xl font-bold text-white tracking-tight">La Misión de ITA</h2>
               <p className="text-zinc-400 text-lg leading-relaxed border-l-2 border-[#00D02C] pl-6 py-2 bg-gradient-to-r from-[#00D02C]/5 to-transparent">
-                Proveer servicios de inspección técnica, calificación de soldadores y asesorías contables con el más alto nivel de excelencia, rigor normativo y ética profesional. 
+                Proveer servicios de inspección técnica y calificación de soldadores con el más alto nivel de excelencia, rigor normativo y ética profesional. 
               </p>
               <p className="text-zinc-400 text-lg leading-relaxed">
                 Nos comprometemos a garantizar la seguridad, calidad y confiabilidad operativa de los proyectos de nuestros clientes, apoyando simultáneamente su solidez financiera mediante soluciones integrales y transparentes adaptadas a las exigencias corporativas de la industria moderna.
               </p>
             </div>
-            <div className="w-full md:w-5/12 aspect-square bg-zinc-900 rounded-full border-4 border-zinc-950 shadow-[0_0_0_1px_rgba(39,39,42,1)] relative overflow-hidden flex items-center justify-center">
-               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-800 to-zinc-900"></div>
-               <Target size={120} className="text-zinc-800 relative z-10 opacity-50" strokeWidth={1} />
+            <div className="w-full md:w-5/12 aspect-square bg-zinc-900 rounded-full border-4 border-zinc-950 shadow-[0_0_0_1px_rgba(39,39,42,1)] relative overflow-hidden flex items-center justify-center group">
+               <Image 
+                 src="/images/empresa/mision-welding.png" 
+                 alt="Detalle proceso de soldadura" 
+                 fill 
+                 sizes="(max-width: 768px) 100vw, 40vw"
+                 className="object-cover opacity-70 mix-blend-screen group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" 
+               />
+               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_30%,_rgba(9,9,11,1)_100%)]"></div>
             </div>
           </div>
 

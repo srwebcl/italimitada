@@ -42,16 +42,20 @@ export async function POST(request: Request) {
           data: {
             welderName: cert.welder.fullName,
             welderRut: cert.welder.rut,
-            process: cert.process,
+            company: cert.welder.company,
+            certificateNumber: cert.certificateNumber,
+            qualificationType: cert.qualificationType,
             issueDate: cert.issueDate.toLocaleDateString('es-CL'),
             expiryDate: cert.expiryDate.toLocaleDateString('es-CL'),
             validationCode: cert.validationCode,
+            status: cert.status,
             qrBase64,
             logoBase64
           }
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const pdfBuffer = await renderToBuffer(pdfElement as any);
-        await sendCertificateEmail(cert.welder.email, cert.welder.fullName, pdfBuffer, logoBuffer);
+        await sendCertificateEmail(cert.welder.email, cert.welder.fullName, pdfBuffer, logoBuffer, qrBase64, cert.validationCode);
       }
 
       return NextResponse.redirect(new URL('/certificados?success=pago_aprobado', request.url));
@@ -59,7 +63,7 @@ export async function POST(request: Request) {
       return NextResponse.redirect(new URL('/certificados?error=pago_rechazado', request.url));
     }
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(error);
     return NextResponse.redirect(new URL('/certificados?error=error_interno', request.url));
   }

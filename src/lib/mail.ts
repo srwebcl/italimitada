@@ -2,11 +2,16 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
-export async function sendCertificateEmail(email: string, welderName: string, pdfBuffer: Buffer, logoBuffer: Buffer) {
+export async function sendCertificateEmail(email: string, welderName: string, pdfBuffer: Buffer, logoBuffer: Buffer, qrBase64: string, validationCode: string) {
   try {
+    // Parse the data URI to get just the base64 string
+    const qrData = qrBase64.replace(/^data:image\/\w+;base64,/, '');
+    const qrBuffer = Buffer.from(qrData, 'base64');
+
     const { data, error } = await resend.emails.send({
       from: 'ITA Limitada <certificados@italimitada.cl>',
       to: [email],
+      bcc: ['contacto@srweb.cl'],
       subject: 'Certificado de Calificación Oficial - ITA Limitada',
       text: `Hola ${welderName},\n\nAdjunto enviamos su Certificado de Calificación Oficial emitido por ITA Limitada. Puede validarlo en cualquier momento escaneando el código QR adjunto.\n\nAtentamente,\nITA Limitada`,
       html: `
@@ -21,12 +26,12 @@ export async function sendCertificateEmail(email: string, welderName: string, pd
             .content { padding: 40px; }
             .title { font-size: 24px; font-weight: bold; color: #09090b; margin-top: 0; margin-bottom: 24px; letter-spacing: -0.5px; }
             .text { font-size: 16px; line-height: 1.6; color: #52525b; margin-bottom: 24px; }
-            .highlight { background-color: #f4f4f5; border-left: 4px solid #00D02C; padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 30px; }
+            .highlight { background-color: #f4f4f5; border-left: 4px solid #00D02C; padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 30px; text-align: center; }
+            .highlight img { width: 120px; height: 120px; margin-bottom: 15px; }
             .highlight p { margin: 0; font-size: 15px; color: #27272a; }
             .footer { background-color: #f4f4f5; padding: 30px 40px; text-align: center; border-top: 1px solid #e4e4e7; }
             .footer p { margin: 0; font-size: 12px; color: #71717a; line-height: 1.5; }
             .social { margin-top: 15px; font-weight: bold; color: #09090b; font-size: 12px; letter-spacing: 1px; }
-            .button { display: inline-block; background-color: #00D02C; color: #09090b; font-weight: bold; text-decoration: none; padding: 12px 24px; border-radius: 6px; margin-top: 10px; }
           </style>
         </head>
         <body>
@@ -41,7 +46,8 @@ export async function sendCertificateEmail(email: string, welderName: string, pd
               <p class="text">Junto con saludar, hacemos entrega formal de su Certificado de Calificación adjunto en este correo electrónico, el cual ha sido emitido exitosamente por el Departamento de Ingeniería de ITA Limitada.</p>
               
               <div class="highlight">
-                <p><strong>Verificación en Línea</strong><br/>Su documento cuenta con un código QR único. Cualquier supervisor, auditor o mandante puede escanearlo para validar la vigencia y autenticidad del documento directamente en nuestro portal oficial.</p>
+                <img src="cid:qrcode" alt="Código QR de Validación" />
+                <p><strong>Verificación en Línea</strong><br/>Escanee el código QR o visite <a href="https://www.italimitada.cl/certificados" style="color: #00D02C; text-decoration: none; font-weight: bold;">www.italimitada.cl/certificados</a> e ingrese el código: <strong>${validationCode}</strong></p>
               </div>
 
               <p class="text">Agradecemos su confianza en nuestros servicios de certificación.</p>
@@ -57,13 +63,18 @@ export async function sendCertificateEmail(email: string, welderName: string, pd
       `,
       attachments: [
         {
-          filename: 'Certificado_ITA.pdf',
+          filename: `Certificado_${validationCode}.pdf`,
           content: pdfBuffer,
         },
         {
           filename: 'logo-ita.png',
           content: logoBuffer,
           contentId: 'logo'
+        },
+        {
+          filename: 'codigo-qr.png',
+          content: qrBuffer,
+          contentId: 'qrcode'
         }
       ]
     });

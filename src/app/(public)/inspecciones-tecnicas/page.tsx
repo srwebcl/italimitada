@@ -1,6 +1,6 @@
 import React from 'react';
-import { ShieldCheck, Search, Activity, Waves, Eye, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { ShieldCheck, Search, Activity, Waves, Eye } from 'lucide-react';
+import { ContactForm } from '@/components/forms/ContactForm';
 
 export default function InspeccionesTecnicas() {
   const servicios = [
@@ -42,38 +42,18 @@ export default function InspeccionesTecnicas() {
     <main className="min-h-screen bg-zinc-950 text-zinc-300">
       
       {/* Hero Header */}
-      <section className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800 to-zinc-950 py-24 relative border-b border-zinc-900 overflow-hidden">
+      <section className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800 to-zinc-950 py-20 relative border-b border-zinc-900 overflow-hidden">
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#00d02c 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
-        <div className="container mx-auto px-4 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-full mb-6 text-[#00D02C] text-sm font-bold tracking-widest uppercase">
-              <ShieldCheck size={18} />
-              Ingeniería NDT
-            </div>
-            <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-6 leading-tight">
-              Aseguramiento <span className="text-[#00D02C]">Estructural Integrado.</span>
-            </h1>
-            <p className="text-lg md:text-xl text-zinc-400 font-light leading-relaxed mb-8">
-              Evaluación volumétrica y superficial de sus activos críticos bajo los más estrictos estándares internacionales (ASME, AWS, API, ASTM).
-            </p>
-            <div className="flex gap-4">
-              <Link href="/contacto" className="bg-[#00D02C] hover:bg-[#00b326] text-zinc-950 font-bold px-8 py-4 rounded-xl transition-colors shadow-[0_0_15px_rgba(0,208,44,0.3)]">
-                Solicitar Inspección
-              </Link>
-            </div>
+        <div className="container mx-auto px-4 text-center relative z-10 max-w-4xl">
+          <div className="inline-flex items-center justify-center p-4 bg-zinc-900/80 border border-zinc-800 rounded-full mb-8 shadow-xl text-[#00D02C]">
+            <ShieldCheck size={40} />
           </div>
-          
-          <div className="hidden lg:flex justify-end relative">
-             <div className="w-full max-w-md aspect-square bg-zinc-900 rounded-full border-4 border-zinc-800 relative flex items-center justify-center p-8">
-               <div className="absolute inset-0 bg-[#00D02C]/10 rounded-full blur-3xl animate-pulse"></div>
-               {/* Gráfico representativo estético */}
-               <div className="w-full h-full border border-zinc-800 rounded-full flex items-center justify-center border-dashed">
-                 <div className="w-3/4 h-3/4 border border-zinc-700 rounded-full flex items-center justify-center border-dashed opacity-50">
-                   <div className="w-1/2 h-1/2 bg-[#00D02C]/20 border border-[#00D02C]/50 rounded-full blur-sm"></div>
-                 </div>
-               </div>
-             </div>
-          </div>
+          <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-8">
+            Aseguramiento <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D02C] to-emerald-600">Estructural Integrado</span>
+          </h1>
+          <p className="text-lg md:text-2xl text-zinc-400 font-light leading-relaxed max-w-3xl mx-auto">
+            Evaluación volumétrica y superficial de sus activos críticos bajo los más estrictos estándares internacionales (ASME, AWS, API, ASTM).
+          </p>
         </div>
       </section>
 
@@ -128,6 +108,37 @@ export default function InspeccionesTecnicas() {
             </div>
           ))}
 
+        </div>
+      </section>
+
+      {/* Formulario Landing */}
+      <section className="py-24 bg-zinc-950 relative border-t border-zinc-900 overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00D02C]/5 to-transparent pointer-events-none"></div>
+        <div className="container mx-auto px-4 max-w-5xl relative z-10">
+          <div className="flex flex-col md:flex-row gap-12 lg:gap-20 items-center">
+            <div className="flex-1 text-center md:text-left">
+              <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">¿Listo para inspeccionar su próximo proyecto?</h2>
+              <p className="text-lg text-zinc-400 leading-relaxed mb-10">
+                Deje sus datos y un ingeniero especialista de NDT se contactará con usted a la brevedad para coordinar una evaluación técnica inicial <strong className="text-white font-medium">sin compromiso</strong>.
+              </p>
+              
+              <div className="flex items-center justify-center md:justify-start gap-4 p-6 bg-zinc-900/50 rounded-2xl border border-zinc-800">
+                <div className="flex -space-x-3 shrink-0">
+                   <div className="w-12 h-12 rounded-full bg-zinc-800 border-2 border-zinc-900 flex items-center justify-center text-[10px] font-bold text-zinc-300 tracking-wider shadow-lg">ASME</div>
+                   <div className="w-12 h-12 rounded-full bg-zinc-800 border-2 border-zinc-900 flex items-center justify-center text-[10px] font-bold text-zinc-300 tracking-wider shadow-lg">AWS</div>
+                   <div className="w-12 h-12 rounded-full bg-zinc-800 border-2 border-zinc-900 flex items-center justify-center text-[10px] font-bold text-zinc-300 tracking-wider shadow-lg">API</div>
+                </div>
+                <div className="text-sm font-medium text-zinc-400 border-l border-zinc-700 pl-4">
+                  Nuestros reportes cuentan con <br/><strong className="text-white">Validez Internacional</strong>
+                </div>
+              </div>
+            </div>
+            
+            <div className="w-full md:w-[450px] shrink-0 relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00D02C] to-emerald-600 rounded-[2rem] blur opacity-20"></div>
+              <ContactForm title="Solicitar Inspección NDT" defaultMessage="Hola, requiero una cotización para servicios de inspección técnica en terreno para..." />
+            </div>
+          </div>
         </div>
       </section>
 

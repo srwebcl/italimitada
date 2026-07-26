@@ -18,7 +18,8 @@ export async function validateCertificate(code: string) {
       certificate: {
         code: cert.validationCode,
         status: cert.status,
-        process: cert.process,
+        certificateNumber: cert.certificateNumber,
+        qualificationType: cert.qualificationType,
         issueDate: cert.issueDate,
         expiryDate: cert.expiryDate,
         welderName: cert.welder.fullName,

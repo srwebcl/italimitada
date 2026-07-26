@@ -3,19 +3,18 @@
 import React, { useState, Suspense } from 'react';
 import { validateCertificate } from '@/actions/validation';
 import { initWebpayTransaction } from '@/actions/webpay';
-import { ShieldCheck, Search, FileText, CheckCircle2, XCircle } from 'lucide-react';
+import { ShieldCheck, Search, FileText } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 
 function CertificadosContent() {
-  const [code, setCode] = useState('');
+  const searchParams = useSearchParams();
+  const codeParam = searchParams.get('code');
+  
+  const [code, setCode] = useState(codeParam || '');
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState('');
-  
-  const searchParams = useSearchParams();
-  const paymentSuccess = searchParams.get('success');
-  const paymentError = searchParams.get('error');
-  const codeParam = searchParams.get('code');
 
   const executeValidation = async (validationCode: string) => {
     if (!validationCode) return;
@@ -33,6 +32,7 @@ function CertificadosContent() {
     setLoading(false);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
     if (codeParam) {
       setCode(codeParam);
@@ -76,13 +76,13 @@ function CertificadosContent() {
       <div className="text-center mb-12">
         <div className="inline-flex items-center justify-center p-3 bg-zinc-900/50 border border-zinc-800 rounded-full mx-auto mb-6 text-[#00D02C] shadow-sm relative z-10 gap-3 backdrop-blur-sm">
           <ShieldCheck size={20} />
-          <span className="font-semibold tracking-[0.2em] uppercase text-[10px] text-zinc-300 pr-2">Acceso Restringido - RRHH</span>
+          <span className="font-semibold tracking-[0.2em] uppercase text-[10px] text-zinc-300 pr-2">Portal de Verificación</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-4 relative z-10">
-          Base de Datos <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D02C] to-emerald-600">Nacional</span>
+          Validación de <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D02C] to-emerald-600">Certificados</span>
         </h1>
         <p className="text-zinc-400 leading-relaxed max-w-xl mx-auto relative z-10 text-base md:text-lg">
-          Herramienta de verificación en tiempo real para reclutadores y auditores de calidad. Consulte la autenticidad y vigencia de las calificaciones técnicas.
+          Ingrese el código de validación impreso en el certificado para corroborar su autenticidad y vigencia en tiempo real.
         </p>
       </div>
 
@@ -136,8 +136,8 @@ function CertificadosContent() {
               <span className="text-zinc-300 font-mono tracking-widest">{result.welderRut}</span>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-2xl bg-zinc-950/40 border border-white/5">
-              <span className="text-zinc-500 font-medium text-sm mb-1 sm:mb-0 uppercase tracking-widest">Proceso Acreditado</span>
-              <span className="text-zinc-300">{result.process}</span>
+              <span className="text-zinc-500 font-medium text-sm mb-1 sm:mb-0 uppercase tracking-widest">Tipo de Calificación</span>
+              <span className="text-zinc-300">{result.qualificationType}</span>
             </div>
             <div className="grid grid-cols-2 gap-3 mt-3">
               <div className="p-5 rounded-2xl bg-zinc-950/40 border border-white/5 flex flex-col items-center text-center">

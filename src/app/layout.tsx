@@ -8,8 +8,23 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ITA Limitada | Inspección NDT, Calificación de Soldadores y Contabilidad",
-  description: "Especialistas en ensayos no destructivos (NDT), calificación de soldadores según AWS/ASME y asesorías contables tributarias en La Serena y Coquimbo.",
+  title: "ITA Limitada | Inspección NDT y Calificación de Soldadores",
+  description: "Especialistas en ensayos no destructivos (NDT) y calificación de soldadores según AWS/ASME en La Serena y Coquimbo.",
+  openGraph: {
+    title: "ITA Limitada | Inspección NDT",
+    description: "Especialistas en ensayos no destructivos (NDT) y calificación de soldadores en La Serena y Coquimbo.",
+    url: "https://italimitada.cl",
+    siteName: "ITA Limitada",
+    images: [
+      {
+        url: "https://italimitada.cl/logo-ita.png",
+        width: 800,
+        height: 600,
+      }
+    ],
+    locale: "es_CL",
+    type: "website",
+  },
 };
 
 const schemaJSON = {
@@ -18,7 +33,7 @@ const schemaJSON = {
   "name": "ITA Limitada - Inspección Técnica NDT y Servicios Integrales",
   "url": "https://italimitada.cl/",
   "telephone": "+56932277222",
-  "email": "info@italimitada.cl",
+  "email": "contacto@italimitada.cl",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "La Serena",
@@ -27,14 +42,9 @@ const schemaJSON = {
   },
   "department": [
     {
-      "@type": "AccountingService",
-      "name": "Departamento de Contabilidad",
-      "email": "plafitte@italimitada.cl"
-    },
-    {
       "@type": "ProfessionalService",
-      "name": "Departamento de Inspecciones Técnicas",
-      "email": "jolavarria@italimitada.cl"
+      "name": "Departamento de Inspecciones Técnicas NDT",
+      "email": "contacto@italimitada.cl"
     }
   ]
 };

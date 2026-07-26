@@ -3,17 +3,37 @@
 import { prisma } from '@/lib/db';
 import { Department } from '@prisma/client';
 import { Resend } from 'resend';
+import { z } from 'zod';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function submitLead(data: { name: string; email: string; phone: string; department: Department; message?: string }) {
+const leadSchema = z.object({
+  name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+  email: z.string().email("Correo electrónico inválido"),
+  phone: z.string().min(8, "Teléfono inválido"),
+  company: z.string().optional(),
+  department: z.nativeEnum(Department),
+  message: z.string().optional(),
+  website_url: z.string().optional(),
+});
+
+export async function submitLead(data: { name: string; email: string; phone: string; company?: string; department: Department; message?: string; website_url?: string }) {
   try {
+    const validatedData = leadSchema.parse(data);
+
+    // Honeypot check: If bots fill this, we return early as success to trick them
+    if (validatedData.website_url) {
+      console.log('Spam bot blocked by honeypot');
+      return { success: true, leadId: 'spam-blocked' };
+    }
+
     const lead = await prisma.lead.create({
       data: {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        department: data.department,
+        name: validatedData.name,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        company: validatedData.company,
+        department: validatedData.department,
       },
     });
 
@@ -26,7 +46,7 @@ export async function submitLead(data: { name: string; email: string; phone: str
     }
 
     // Leer logo local para adjuntar como CID
-    let logoAttachment = [];
+    const logoAttachment = [];
     try {
       const fs = await import('fs/promises');
       const path = await import('path');
@@ -85,6 +105,10 @@ export async function submitLead(data: { name: string; email: string; phone: str
                   <tr>
                     <th>Nombre</th>
                     <td>${data.name}</td>
+                  </tr>
+                  <tr>
+                    <th>Empresa</th>
+                    <td>${data.company || 'Independiente'}</td>
                   </tr>
                   <tr>
                     <th>Correo</th>

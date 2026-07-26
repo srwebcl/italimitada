@@ -4,139 +4,156 @@ import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/render
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ffffff',
     padding: 40,
-    border: '20px solid #52525B', 
+    fontFamily: 'Helvetica',
   },
-  headerContainer: {
+  header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 40,
     borderBottom: '2px solid #00D02C',
-    paddingBottom: 20
+    paddingBottom: 20,
   },
-  logoPlaceholder: {
-    fontSize: 24,
-    color: '#52525B',
-    fontWeight: 'bold',
+  titleContainer: {
+    flex: 1,
   },
   title: {
     fontSize: 24,
-    color: '#00D02C',
-    textAlign: 'center',
     fontWeight: 'bold',
-    marginBottom: 30,
-    textTransform: 'uppercase',
+    color: '#1a1a1a',
+  },
+  subtitle: {
+    fontSize: 12,
+    color: '#666666',
+    marginTop: 5,
+  },
+  logo: {
+    width: 120,
   },
   content: {
-    fontSize: 14,
-    color: '#52525B',
-    lineHeight: 2,
-  },
-  dataRow: {
-    flexDirection: 'row',
-    marginBottom: 12,
-  },
-  dataLabel: {
-    width: 200,
-    fontWeight: 'bold',
-    color: '#3f3f46',
-  },
-  dataValue: {
     flex: 1,
-    borderBottom: '1px solid #e4e4e7',
-    color: '#000000',
+  },
+  row: {
+    flexDirection: 'row',
+    marginBottom: 15,
+    borderBottom: '1px solid #eeeeee',
+    paddingBottom: 10,
+  },
+  label: {
+    width: 160,
+    fontSize: 12,
+    color: '#666666',
+    fontWeight: 'bold',
+  },
+  value: {
+    flex: 1,
+    fontSize: 12,
+    color: '#1a1a1a',
   },
   footer: {
-    position: 'absolute',
-    bottom: 40,
-    left: 40,
-    right: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    borderTop: '2px solid #52525B',
-    paddingTop: 15,
+    marginTop: 40,
+    paddingTop: 20,
+    borderTop: '1px solid #eeeeee',
   },
   qrContainer: {
     width: 100,
-    alignItems: 'center'
+    height: 100,
   },
-  qrImage: {
-    width: 70,
-    height: 70,
-    marginBottom: 5
+  validationInfo: {
+    flex: 1,
+    marginRight: 20,
+    justifyContent: 'center',
   },
-  codeText: {
+  validationText: {
     fontSize: 10,
-    fontWeight: 'bold',
-    color: '#00D02C'
+    color: '#666666',
+    marginBottom: 2,
   },
-  disclaimer: {
-    fontSize: 9,
-    color: '#71717a',
-    textAlign: 'right',
-    width: '70%'
+  validationLink: {
+    fontSize: 10,
+    color: '#00D02C',
+    marginTop: 5,
   }
 });
 
 interface CertificateData {
   welderName: string;
   welderRut: string;
-  process: string;
+  company: string;
+  certificateNumber: string;
+  qualificationType: string;
   issueDate: string;
   expiryDate: string;
   validationCode: string;
+  status: string;
   qrBase64: string;
   logoBase64: string;
 }
 
 export const CertificateTemplate = ({ data }: { data: CertificateData }) => (
   <Document>
-    <Page size="A4" orientation="landscape" style={styles.page}>
-      <View style={styles.headerContainer}>
-        {data.logoBase64 ? (
-          <Image src={data.logoBase64} style={{ width: 160, height: 43 }} />
-        ) : (
-          <Text style={styles.logoPlaceholder}>ITA LIMITADA</Text>
-        )}
-        <Text style={{ fontSize: 12, color: '#71717a' }}>Ingeniería NDT y Servicios Integrales</Text>
+    <Page size="LETTER" style={styles.page}>
+      <View style={styles.header}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Informe de Calificación</Text>
+        </View>
+        <View>
+          {data.logoBase64 ? (
+             <Image style={styles.logo} src={data.logoBase64} />
+          ) : (
+             <Text style={styles.title}>ITA LIMITADA</Text>
+          )}
+        </View>
       </View>
       
-      <Text style={styles.title}>Certificado de Calificación de Soldador</Text>
-      
       <View style={styles.content}>
-        <View style={styles.dataRow}>
-          <Text style={styles.dataLabel}>Nombre Completo:</Text>
-          <Text style={styles.dataValue}>{data.welderName}</Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Nombre Completo:</Text>
+          <Text style={styles.value}>{data.welderName}</Text>
         </View>
-        <View style={styles.dataRow}>
-          <Text style={styles.dataLabel}>RUT:</Text>
-          <Text style={styles.dataValue}>{data.welderRut}</Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>RUT del Soldador:</Text>
+          <Text style={styles.value}>{data.welderRut}</Text>
         </View>
-        <View style={styles.dataRow}>
-          <Text style={styles.dataLabel}>Proceso Calificado:</Text>
-          <Text style={styles.dataValue}>{data.process}</Text>
+        {data.company && data.company !== 'Independiente' && (
+          <View style={styles.row}>
+            <Text style={styles.label}>Empresa:</Text>
+            <Text style={styles.value}>{data.company}</Text>
+          </View>
+        )}
+        <View style={styles.row}>
+          <Text style={styles.label}>N°. de Certificado:</Text>
+          <Text style={styles.value}>{data.certificateNumber}</Text>
         </View>
-        <View style={styles.dataRow}>
-          <Text style={styles.dataLabel}>Fecha de Emisión:</Text>
-          <Text style={styles.dataValue}>{data.issueDate}</Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Tipo de Calificación:</Text>
+          <Text style={styles.value}>{data.qualificationType}</Text>
         </View>
-        <View style={styles.dataRow}>
-          <Text style={styles.dataLabel}>Válido Hasta:</Text>
-          <Text style={styles.dataValue}>{data.expiryDate}</Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Fecha de Emisión:</Text>
+          <Text style={styles.value}>{data.issueDate}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.label}>Fecha de Caducidad:</Text>
+          <Text style={styles.value}>{data.expiryDate}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.label}>Estado Actual:</Text>
+          <Text style={styles.value}>{data.status}</Text>
         </View>
       </View>
 
       <View style={styles.footer}>
-        <View style={styles.qrContainer}>
-          <Image src={data.qrBase64} style={styles.qrImage} />
-          <Text style={styles.codeText}>Código: {data.validationCode}</Text>
+        <View style={styles.validationInfo}>
+          <Text style={styles.validationText}>Este documento es validable públicamente.</Text>
+          <Text style={styles.validationText}>Escanee el código QR o visite www.italimitada.cl/certificados</Text>
+          <Text style={styles.validationLink}>Código: {data.validationCode}</Text>
         </View>
-        <Text style={styles.disclaimer}>
-          Este documento certifica que el soldador ha sido calificado cumpliendo rigurosamente con los estándares y normativas internacionales AWS D1.1, ASME IX y API 1104. Documento auditable vía portal oficial ITA Limitada.
-        </Text>
+        <Image style={styles.qrContainer} src={data.qrBase64} />
       </View>
     </Page>
   </Document>

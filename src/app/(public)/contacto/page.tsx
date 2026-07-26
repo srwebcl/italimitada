@@ -14,7 +14,7 @@ export default function Contacto() {
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight mb-6">Contacto Directo</h1>
           <p className="text-lg md:text-xl text-zinc-400 font-light leading-relaxed">
-            Comuníquese con nosotros para cotizar servicios de inspección, asesorías contables o validar certificaciones.
+            Comuníquese con nosotros para cotizar servicios de inspección o validar certificaciones.
           </p>
         </div>
       </section>
@@ -61,11 +61,10 @@ export default function Contacto() {
             </div>
 
             {/* Contact Form Container */}
-            <div className="bg-zinc-900/40 backdrop-blur border border-zinc-800 p-8 rounded-3xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-[#00D02C]/10 rounded-full blur-3xl"></div>
-              <h2 className="text-2xl font-bold text-white mb-6 tracking-tight relative z-10">Envíenos un mensaje</h2>
+            <div className="relative h-full flex flex-col justify-center">
+              <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-[#00D02C]/10 rounded-full blur-3xl pointer-events-none"></div>
               <div className="relative z-10">
-                <ContactForm />
+                <ContactForm title="Envíenos un mensaje" />
               </div>
             </div>
 
