@@ -142,11 +142,11 @@ function CertificadosContent() {
             <div className="grid grid-cols-2 gap-3 mt-3">
               <div className="p-5 rounded-2xl bg-zinc-950/40 border border-white/5 flex flex-col items-center text-center">
                  <span className="text-zinc-500 font-medium mb-2 text-[10px] tracking-[0.2em] uppercase">Fecha Emisión</span>
-                 <span className="text-white font-bold font-mono">{new Date(result.issueDate).toLocaleDateString('es-CL')}</span>
+                 <span className="text-white font-bold font-mono">{new Date(result.issueDate).toLocaleDateString('es-CL', { timeZone: 'UTC' })}</span>
               </div>
               <div className="p-5 rounded-2xl bg-zinc-950/40 border border-white/5 flex flex-col items-center text-center">
                  <span className="text-zinc-500 font-medium mb-2 text-[10px] tracking-[0.2em] uppercase">Válido Hasta</span>
-                 <span className="text-white font-bold font-mono">{new Date(result.expiryDate).toLocaleDateString('es-CL')}</span>
+                 <span className="text-white font-bold font-mono">{new Date(result.expiryDate).toLocaleDateString('es-CL', { timeZone: 'UTC' })}</span>
               </div>
             </div>
           </div>

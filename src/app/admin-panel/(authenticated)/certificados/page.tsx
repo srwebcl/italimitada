@@ -56,7 +56,7 @@ export default async function CertificadosList() {
                       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       <span className="bg-zinc-800 text-zinc-300 px-2.5 py-1 rounded-md text-xs font-semibold">{(cert as any).qualificationType}</span>
                     </td>
-                    <td className="px-6 py-4">{cert.issueDate.toLocaleDateString('es-CL')}</td>
+                    <td className="px-6 py-4">{cert.issueDate.toLocaleDateString('es-CL', { timeZone: 'UTC' })}</td>
                     <td className="px-6 py-4">
                       {cert.status === 'VIGENTE' ? (
                         <span className="bg-green-500/10 text-[#00D02C] border border-[#00D02C]/20 px-3 py-1 rounded-full text-xs font-bold tracking-wide">VIGENTE</span>
